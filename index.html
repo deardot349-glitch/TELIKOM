@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Telikom — Технології майбутнього</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">TELI<span>KOM</span></a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Головна</a>
+      <a href="catalog.html">Каталог</a>
+      <a href="catalog.html?category=Смартфони">Смартфони</a>
+      <a href="catalog.html?category=Ноутбуки">Ноутбуки</a>
+      <a href="catalog.html?category=Аксесуари">Аксесуари</a>
+    </div>
+    <div class="nav-actions">
+      <a href="cart.html" class="btn btn-ghost btn-sm">
+        <span>🛒</span>
+        <div class="cart-icon-wrap" style="position:relative">
+          Кошик
+          <span class="cart-badge" style="display:none">0</span>
+        </div>
+      </a>
+      <a href="admin.html" class="btn btn-ghost btn-sm btn-icon" title="Адмін">⚙️</a>
+      <button class="nav-hamburger" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="container">
+    <div class="nav-mobile">
+      <a href="index.html">Головна</a>
+      <a href="catalog.html">Каталог</a>
+      <a href="catalog.html?category=Смартфони">Смартфони</a>
+      <a href="catalog.html?category=Ноутбуки">Ноутбуки</a>
+      <a href="catalog.html?category=Аксесуари">Аксесуари</a>
+      <a href="cart.html">🛒 Кошик</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-visual">⚡</div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-tag">
+        ⚡ Нові надходження вже в наявності
+      </div>
+      <h1>Технології <span class="accent">майбутнього</span><br>вже сьогодні.</h1>
+      <p>Смартфони, ноутбуки, гаджети та аксесуари під замовлення. Офіційна гарантія. Швидка доставка.</p>
+      <div class="hero-btns">
+        <a href="catalog.html" class="btn btn-primary btn-lg">📦 Переглянути каталог</a>
+        <a href="#hits" class="btn btn-ghost btn-lg">🔥 Хіти продажів</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">12K+</div>
+          <div class="hero-stat-label">Задоволених клієнтів</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">500+</div>
+          <div class="hero-stat-label">Товарів у каталозі</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">48</div>
+          <div class="hero-stat-label">Брендів у наявності</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">4.9★</div>
+          <div class="hero-stat-label">Середній рейтинг</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CATEGORIES ── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Каталог</div>
+      <h2>Популярні категорії</h2>
+      <p>Знайди те, що шукаєш — від флагманських смартфонів до розумного дому.</p>
+    </div>
+    <div class="categories-grid" id="categories-grid">
+      <!-- injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ── HITS ── -->
+<section class="section" id="hits" style="padding-top:0">
+  <div class="container">
+    <div class="section-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px">
+      <div>
+        <div class="section-label">Бестселери</div>
+        <h2>Хіти продажів</h2>
+      </div>
+      <a href="catalog.html" class="btn btn-ghost">Всі товари →</a>
+    </div>
+    <div class="products-grid" id="hits-grid"></div>
+  </div>
+</section>
+
+<!-- ── DEALS BANNER ── -->
+<section class="section-sm">
+  <div class="container">
+    <div class="deals-banner">
+      <div>
+        <div class="deals-tag">🔥 ГАРЯЧА АКЦІЯ</div>
+        <h2>До -30% на навушники<br>та аксесуари</h2>
+        <p style="margin-top:12px">Обмежена кількість товарів за акційними цінами</p>
+        <a href="catalog.html?category=Навушники" class="btn btn-primary" style="margin-top:28px">Дивитись акції</a>
+      </div>
+      <div class="deals-countdown">
+        <div class="countdown-block">
+          <div class="countdown-num" id="cd-days">02</div>
+          <div class="countdown-label">Дні</div>
+        </div>
+        <div class="countdown-block">
+          <div class="countdown-num" id="cd-hours">14</div>
+          <div class="countdown-label">Год</div>
+        </div>
+        <div class="countdown-block">
+          <div class="countdown-num" id="cd-mins">30</div>
+          <div class="countdown-label">Хв</div>
+        </div>
+        <div class="countdown-block">
+          <div class="countdown-num" id="cd-secs">00</div>
+          <div class="countdown-label">Сек</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── NEW ARRIVALS ── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px">
+      <div>
+        <div class="section-label">Щойно надійшли</div>
+        <h2>Новинки</h2>
+      </div>
+      <a href="catalog.html?badge=new" class="btn btn-ghost">Всі новинки →</a>
+    </div>
+    <div class="products-grid" id="new-grid"></div>
+  </div>
+</section>
+
+<!-- ── WHY US ── -->
+<section class="section" style="background:var(--bg2)">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">Наші переваги</div>
+      <h2>Чому обирають нас</h2>
+      <p>Якість, швидкість і довіра — три стовпи Telikom</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🏆</div>
+        <h4>Офіційна гарантія</h4>
+        <p>Всі товари — лише від офіційних дистриб'юторів. Гарантія виробника та наш сервіс.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🚀</div>
+        <h4>Швидка доставка</h4>
+        <p>Доставка по всій Україні за 1–2 дні. Київ — день в день при замовленні до 12:00.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">💳</div>
+        <h4>Зручна оплата</h4>
+        <p>Карта, НП, Monobank, оплата частинами — будь-який спосіб без переплат.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🔄</div>
+        <h4>Повернення 14 днів</h4>
+        <p>Не підійшов товар? Повертай без питань протягом 14 днів з моменту отримання.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── INSTAGRAM ── -->
+<section class="section" id="instagram">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">Соцмережі</div>
+      <h2>Ми в Instagram</h2>
+      <p>Слідкуй за нами — огляди, розпакування та ексклюзивні акції щодня</p>
+    </div>
+    <div class="ig-grid">
+      <div class="ig-post">📱</div>
+      <div class="ig-post">💻</div>
+      <div class="ig-post">🎧</div>
+      <div class="ig-post">⌚</div>
+      <div class="ig-post">🎮</div>
+      <div class="ig-post">📲</div>
+    </div>
+    <div style="text-align:center">
+      <a href="https://instagram.com" target="_blank" class="btn btn-ghost btn-lg">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="color:var(--accent)"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        Перейти в Instagram
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACTS ── -->
+<section class="section-sm" style="background:var(--bg2)">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">Зв'яжись з нами</div>
+      <h2>Контакти</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;max-width:800px;margin:0 auto">
+      <div class="why-card" style="text-align:center">
+        <div class="why-icon">📞</div>
+        <h4 style="font-size:1rem;margin-bottom:6px">Телефон</h4>
+        <p style="font-size:.9rem">+380 (67) 000-00-00</p>
+      </div>
+      <div class="why-card" style="text-align:center">
+        <div class="why-icon">📧</div>
+        <h4 style="font-size:1rem;margin-bottom:6px">Email</h4>
+        <p style="font-size:.9rem">info@telikom.ua</p>
+      </div>
+      <div class="why-card" style="text-align:center">
+        <div class="why-icon">📍</div>
+        <h4 style="font-size:1rem;margin-bottom:6px">Адреса</h4>
+        <p style="font-size:.9rem">Київ, вул. Хрещатик, 1</p>
+      </div>
+      <div class="why-card" style="text-align:center">
+        <div class="why-icon">🕐</div>
+        <h4 style="font-size:1rem;margin-bottom:6px">Графік</h4>
+        <p style="font-size:.9rem">Пн–Нд: 9:00–20:00</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">TELIKOM</div>
+        <p class="footer-desc">Офіційний магазин електроніки в Україні. Смартфони, ноутбуки, гаджети — все в одному місці з гарантією.</p>
+        <div class="footer-socials">
+          <a href="https://instagram.com" target="_blank" class="social-btn" title="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="#" class="social-btn" title="Telegram">✈️</a>
+          <a href="#" class="social-btn" title="Viber">💬</a>
+        </div>
+      </div>
+      <div>
+        <h5>Каталог</h5>
+        <ul>
+          <li><a href="catalog.html?category=Смартфони">Смартфони</a></li>
+          <li><a href="catalog.html?category=Ноутбуки">Ноутбуки</a></li>
+          <li><a href="catalog.html?category=Планшети">Планшети</a></li>
+          <li><a href="catalog.html?category=Навушники">Навушники</a></li>
+          <li><a href="catalog.html?category=Ігрові консолі">Ігрові консолі</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Покупцям</h5>
+        <ul>
+          <li><a href="cart.html">Кошик</a></li>
+          <li><a href="checkout.html">Оформити замовлення</a></li>
+          <li><a href="tracking.html">Відстежити замовлення</a></li>
+          <li><a href="#">Умови повернення</a></li>
+          <li><a href="#">Гарантія</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Компанія</h5>
+        <ul>
+          <li><a href="#">Про нас</a></li>
+          <li><a href="#">Публічна оферта</a></li>
+          <li><a href="#">Конфіденційність</a></li>
+          <li><a href="admin.html">Адмін панель</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Telikom. Всі права захищені.</p>
+      <p>Розроблено з ⚡ в Україні</p>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  const CATEGORIES = [
+    { name: 'Смартфони', icon: '📱', count: 48 },
+    { name: 'Ноутбуки', icon: '💻', count: 36 },
+    { name: 'Планшети', icon: '📲', count: 22 },
+    { name: 'Навушники', icon: '🎧', count: 64 },
+    { name: 'Смарт-годинники', icon: '⌚', count: 31 },
+    { name: 'Ігрові консолі', icon: '🎮', count: 18 },
+    { name: 'Аксесуари', icon: '🔌', count: 120 },
+    { name: 'Smart Home', icon: '🏠', count: 45 }
+  ];
+
+  // Render categories
+  const catGrid = document.getElementById('categories-grid');
+  catGrid.innerHTML = CATEGORIES.map(c => `
+    <a href="catalog.html?category=${encodeURIComponent(c.name)}" class="cat-card">
+      <div class="cat-icon">${c.icon}</div>
+      <div class="cat-name">${c.name}</div>
+      <div class="cat-count">${c.count} товарів</div>
+    </a>
+  `).join('');
+
+  // Hits
+  const hitsGrid = document.getElementById('hits-grid');
+  const hits = PRODUCTS.filter(p => p.badge === 'hit').slice(0, 4);
+  hitsGrid.innerHTML = hits.map(productCard).join('');
+
+  // New arrivals
+  const newGrid = document.getElementById('new-grid');
+  const newProds = PRODUCTS.filter(p => p.badge === 'new').slice(0, 4);
+  newGrid.innerHTML = newProds.map(productCard).join('');
+
+  // Countdown (48h from now)
+  initCountdown(Date.now() + 48 * 3600 * 1000 + 30 * 60 * 1000);
+</script>
+</body>
+</html>

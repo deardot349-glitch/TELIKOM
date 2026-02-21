@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Замовлення прийнято — Telikom</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">TELI<span>KOM</span></a>
+    <div class="nav-actions">
+      <a href="catalog.html" class="btn btn-ghost btn-sm">📦 Каталог</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="success-page">
+    <div>
+      <div class="success-icon">✅</div>
+      <h1 style="margin-bottom:12px">Замовлення прийнято!</h1>
+      <p style="font-size:1.1rem;margin-bottom:28px;max-width:480px;margin-left:auto;margin-right:auto">
+        Дякуємо за замовлення. Ми вже обробляємо його та зв'яжемося з вами найближчим часом.
+      </p>
+
+      <div class="order-id-badge" id="order-id-badge">Завантаження...</div>
+
+      <div class="delivery-info" id="order-details">
+        <div class="del-item">
+          <div class="del-icon">📦</div>
+          <div class="del-label">Сума</div>
+          <div class="del-val" id="d-total">—</div>
+        </div>
+        <div class="del-item">
+          <div class="del-icon">🚚</div>
+          <div class="del-label">Доставка</div>
+          <div class="del-val" id="d-delivery">1–2 дні</div>
+        </div>
+        <div class="del-item">
+          <div class="del-icon">📅</div>
+          <div class="del-label">Дата замовлення</div>
+          <div class="del-val" id="d-date">—</div>
+        </div>
+        <div class="del-item">
+          <div class="del-icon">💳</div>
+          <div class="del-label">Оплата</div>
+          <div class="del-val" id="d-payment">—</div>
+        </div>
+      </div>
+
+      <div id="order-items" style="max-width:500px;margin:0 auto 32px;text-align:left;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px">
+        <h4 style="margin-bottom:16px;font-family:var(--font-head)">Товари в замовленні</h4>
+        <div id="items-list"></div>
+      </div>
+
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+        <a href="tracking.html" class="btn btn-primary btn-lg" id="tracking-btn">
+          🚚 Відстежити замовлення
+        </a>
+        <a href="catalog.html" class="btn btn-ghost btn-lg">
+          📦 Продовжити покупки
+        </a>
+      </div>
+
+      <div style="margin-top:32px;padding:20px;background:rgba(255,193,7,.05);border:1px solid rgba(255,193,7,.15);border-radius:12px;max-width:480px;margin-left:auto;margin-right:auto">
+        <p style="font-size:.88rem;color:var(--muted)">
+          📧 Підтвердження замовлення надіслано на ваш email.<br>
+          📞 З питань щодо замовлення: <strong style="color:var(--text)">+380 67 000-00-00</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="padding-top:0;border-top:none">
+      <a href="index.html" style="font-family:var(--font-head);font-weight:800;color:var(--accent)">TELIKOM</a>
+      <p style="color:var(--muted);font-size:.82rem">© 2025 Telikom. Всі права захищені.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  const orderId = getParam('id');
+  const order = orderId ? Orders.find(orderId) : null;
+
+  if (order) {
+    document.getElementById('order-id-badge').textContent = '№ ' + order.id;
+
+    const payLabels = { card: 'Карткою', cod: 'Накладний платіж', mono: 'Частинами' };
+    const delivLabels = { np_branch: 'НП — відділення', np_courier: 'НП — кур\'єр', ukrposhta: 'Укрпошта', pickup: 'Самовивіз' };
+
+    document.getElementById('d-total').textContent = formatPrice(order.total);
+    document.getElementById('d-date').textContent = new Date(order.createdAt).toLocaleDateString('uk-UA');
+    document.getElementById('d-payment').textContent = payLabels[order.payment] || order.payment;
+    document.getElementById('d-delivery').textContent = delivLabels[order.delivery] || '1–2 дні';
+
+    // Items
+    const items = (order.items || []).map(i => {
+      const p = PRODUCTS.find(p => p.id === i.id);
+      return p ? `<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+        <div style="font-size:1.5rem">${p.emoji}</div>
+        <div style="flex:1"><div style="font-size:.9rem;font-weight:600">${p.name}</div><div style="font-size:.78rem;color:var(--muted)">×${i.qty}</div></div>
+        <div style="color:var(--accent);font-weight:700">${formatPrice(p.price * i.qty)}</div>
+      </div>` : '';
+    }).join('');
+    document.getElementById('items-list').innerHTML = items;
+
+    document.getElementById('tracking-btn').href = `tracking.html?id=${order.id}`;
+  } else {
+    document.getElementById('order-id-badge').textContent = 'Замовлення не знайдено';
+  }
+</script>
+</body>
+</html>

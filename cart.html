@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Кошик — Telikom</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">TELI<span>KOM</span></a>
+    <div class="nav-links">
+      <a href="index.html">Головна</a>
+      <a href="catalog.html">Каталог</a>
+    </div>
+    <div class="nav-actions">
+      <a href="cart.html" class="btn btn-ghost btn-sm active">
+        🛒 <div class="cart-icon-wrap" style="position:relative">Кошик <span class="cart-badge" style="display:none">0</span></div>
+      </a>
+      <button class="nav-hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="container"><div class="nav-mobile">
+    <a href="index.html">Головна</a>
+    <a href="catalog.html">Каталог</a>
+  </div></div>
+</nav>
+
+<div class="container">
+  <div class="breadcrumb">
+    <a href="index.html">Головна</a>
+    <span>›</span>
+    <span>Кошик</span>
+  </div>
+</div>
+
+<div class="container section-sm">
+  <h2 style="margin-bottom:32px">Ваш кошик</h2>
+
+  <div id="cart-content">
+    <!-- rendered by JS -->
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="padding-top:0;border-top:none">
+      <a href="index.html" style="font-family:var(--font-head);font-weight:800;color:var(--accent)">TELIKOM</a>
+      <p style="color:var(--muted);font-size:.82rem">© 2025 Telikom. Всі права захищені.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  function renderCart() {
+    const items = Cart.items();
+    const container = document.getElementById('cart-content');
+
+    if (items.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">🛒</div>
+          <h3>Кошик порожній</h3>
+          <p>Додайте товари з каталогу</p>
+          <a href="catalog.html" class="btn btn-primary" style="margin-top:24px">До каталогу</a>
+        </div>`;
+      return;
+    }
+
+    const total = Cart.total();
+    const delivery = total >= 2000 ? 0 : 99;
+    const discount = items.reduce((s, i) => s + ((i.oldPrice || i.price) - i.price) * i.qty, 0);
+
+    container.innerHTML = `
+      <div class="cart-layout">
+        <div id="cart-items">
+          ${items.map(item => `
+            <div class="cart-item" id="item-${item.id}">
+              <a href="product.html?id=${item.id}" class="cart-item-img">${item.emoji}</a>
+              <div class="cart-item-info">
+                <div class="cart-item-brand">${item.brand}</div>
+                <a href="product.html?id=${item.id}"><div class="cart-item-name">${item.name}</div></a>
+                <div class="cart-item-price" style="margin-top:6px">${formatPrice(item.price)}</div>
+              </div>
+              <div class="qty-control">
+                <button onclick="updateQty('${item.id}',-1)">−</button>
+                <input type="number" value="${item.qty}" min="1" max="99" onchange="setItemQty('${item.id}', this.value)" style="width:50px">
+                <button onclick="updateQty('${item.id}',1)">+</button>
+              </div>
+              <div style="font-family:var(--font-head);font-weight:800;color:var(--accent);font-size:1.1rem;min-width:100px;text-align:right">
+                ${formatPrice(item.price * item.qty)}
+              </div>
+              <button class="cart-item-remove" onclick="removeItem('${item.id}')" title="Видалити">🗑</button>
+            </div>
+          `).join('')}
+
+          <div style="display:flex;gap:12px;margin-top:16px">
+            <a href="catalog.html" class="btn btn-ghost">← Продовжити покупки</a>
+            <button class="btn btn-ghost" onclick="clearAll()" style="color:var(--error);border-color:var(--error)">Очистити кошик</button>
+          </div>
+        </div>
+
+        <div class="cart-summary">
+          <h3>Підсумок</h3>
+          <div class="summary-row">
+            <span>Товари (${items.reduce((s,i)=>s+i.qty,0)} шт.)</span>
+            <span>${formatPrice(total)}</span>
+          </div>
+          ${discount > 0 ? `<div class="summary-row"><span>Знижка</span><span style="color:var(--success)">−${formatPrice(discount)}</span></div>` : ''}
+          <div class="summary-row">
+            <span>Доставка</span>
+            <span style="${delivery === 0 ? 'color:var(--success)' : ''}">${delivery === 0 ? 'Безкоштовно' : formatPrice(delivery)}</span>
+          </div>
+          ${total < 2000 ? `<p style="font-size:.78rem;color:var(--muted);margin-top:4px">Додайте ще ${formatPrice(2000-total)} для безкоштовної доставки</p>` : ''}
+          <div class="summary-total">
+            <span>Разом</span>
+            <span>${formatPrice(total + delivery)}</span>
+          </div>
+          <a href="checkout.html" class="btn btn-primary btn-full btn-lg" style="margin-top:20px">
+            Оформити замовлення →
+          </a>
+          <div style="display:flex;justify-content:center;gap:16px;margin-top:16px;font-size:.75rem;color:var(--muted)">
+            <span>🔒 Безпечна оплата</span>
+            <span>🚚 Швидка доставка</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function updateQty(id, delta) {
+    const items = Cart.get();
+    const idx = items.findIndex(i => i.id === id);
+    if (idx > -1) {
+      items[idx].qty = Math.max(1, items[idx].qty + delta);
+      Cart.save(items);
+    }
+    renderCart();
+  }
+
+  function setItemQty(id, val) {
+    Cart.setQty(id, +val);
+    renderCart();
+  }
+
+  function removeItem(id) {
+    Cart.remove(id);
+    renderCart();
+    showToast('Товар видалено з кошика', 'info');
+  }
+
+  function clearAll() {
+    if (confirm('Очистити весь кошик?')) {
+      Cart.clear();
+      renderCart();
+    }
+  }
+
+  renderCart();
+</script>
+</body>
+</html>

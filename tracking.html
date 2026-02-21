@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Відстеження замовлення — Telikom</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">TELI<span>KOM</span></a>
+    <div class="nav-links">
+      <a href="index.html">Головна</a>
+      <a href="catalog.html">Каталог</a>
+    </div>
+    <div class="nav-actions">
+      <a href="cart.html" class="btn btn-ghost btn-sm">
+        🛒 <div class="cart-icon-wrap" style="position:relative">Кошик <span class="cart-badge" style="display:none">0</span></div>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="breadcrumb">
+    <a href="index.html">Головна</a><span>›</span>
+    <span>Відстеження замовлення</span>
+  </div>
+</div>
+
+<div class="container section-sm">
+  <div class="tracking-wrap">
+    <div class="section-header">
+      <div class="section-label">Логістика</div>
+      <h2>Відстеження замовлення</h2>
+      <p>Введіть номер замовлення для перегляду статусу</p>
+    </div>
+
+    <div class="tracking-input-row">
+      <input type="text" class="form-input" id="track-input" placeholder="Наприклад: TLK4XYZ" value="">
+      <button class="btn btn-primary" onclick="trackOrder()">🔍 Знайти</button>
+    </div>
+
+    <div id="track-result" style="display:none">
+      <!-- rendered by JS -->
+    </div>
+
+    <div id="track-not-found" style="display:none" class="empty-state">
+      <div class="empty-icon">📭</div>
+      <h3>Замовлення не знайдено</h3>
+      <p>Перевірте номер замовлення або зверніться до нас</p>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="padding-top:0;border-top:none">
+      <a href="index.html" style="font-family:var(--font-head);font-weight:800;color:var(--accent)">TELIKOM</a>
+      <p style="color:var(--muted);font-size:.82rem">© 2025 Telikom. Всі права захищені.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  const STATUSES = [
+    { key: 'new',        label: 'Підтверджено',  icon: '✅', desc: 'Замовлення прийнято та підтверджено' },
+    { key: 'processing', label: 'В обробці',      icon: '⚙️', desc: 'Комплектуємо ваше замовлення' },
+    { key: 'shipped',    label: 'Відправлено',    icon: '🚚', desc: 'Передано перевізнику' },
+    { key: 'delivered',  label: 'Доставлено',     icon: '🎉', desc: 'Замовлення отримано' }
+  ];
+
+  function getStatusIndex(key) {
+    return STATUSES.findIndex(s => s.key === key);
+  }
+
+  function trackOrder() {
+    const id = document.getElementById('track-input').value.trim().toUpperCase();
+    if (!id) { showToast('Введіть номер замовлення', 'error'); return; }
+
+    const order = Orders.find(id);
+    document.getElementById('track-not-found').style.display = 'none';
+    document.getElementById('track-result').style.display = 'none';
+
+    if (!order) {
+      document.getElementById('track-not-found').style.display = 'block';
+      return;
+    }
+
+    const currentIdx = getStatusIndex(order.status || 'new');
+    const payLabels = { card: 'Карткою', cod: 'Накладний платіж', mono: 'Частинами' };
+
+    const timeline = STATUSES.map((s, i) => {
+      const isDone = i < currentIdx;
+      const isActive = i === currentIdx;
+      return `
+        <div class="track-step ${isDone ? 'done' : ''} ${isActive ? 'active' : ''}">
+          <div class="track-dot">${isDone ? '✓' : s.icon}</div>
+          <div class="track-info">
+            <h5>${s.label}</h5>
+            <p>${s.desc}</p>
+            ${isActive ? `<div class="track-time">Зараз на цьому етапі</div>` : ''}
+            ${isDone ? `<div class="track-time">Завершено ✓</div>` : ''}
+          </div>
+        </div>`;
+    }).join('');
+
+    // Progress bar width
+    const progress = Math.round((currentIdx / (STATUSES.length - 1)) * 100);
+
+    const items = (order.items || []).map(i => {
+      const p = PRODUCTS.find(p => p.id === i.id);
+      return p ? `<div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+        <div style="font-size:1.4rem">${p.emoji}</div>
+        <div style="flex:1"><div style="font-size:.88rem;font-weight:600">${p.name}</div></div>
+        <div style="color:var(--accent);font-weight:700;font-size:.88rem">${formatPrice(p.price * i.qty)}</div>
+      </div>` : '';
+    }).join('');
+
+    document.getElementById('track-result').style.display = 'block';
+    document.getElementById('track-result').innerHTML = `
+      <!-- Order header -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:24px">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px">
+          <div>
+            <div style="font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Номер замовлення</div>
+            <div style="font-family:var(--font-head);font-size:1.3rem;font-weight:800;color:var(--accent)">${order.id}</div>
+          </div>
+          <div class="status-pill status-${order.status || 'new'}">${STATUSES[currentIdx]?.label || 'Невідомо'}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;font-size:.85rem">
+          <div><span style="color:var(--muted)">Дата: </span><strong>${new Date(order.createdAt).toLocaleDateString('uk-UA')}</strong></div>
+          <div><span style="color:var(--muted)">Сума: </span><strong style="color:var(--accent)">${formatPrice(order.total)}</strong></div>
+          <div><span style="color:var(--muted)">Оплата: </span><strong>${payLabels[order.payment] || '—'}</strong></div>
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:24px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+          <span style="font-size:.8rem;color:var(--muted)">Прогрес доставки</span>
+          <span style="font-size:.8rem;color:var(--accent);font-weight:700">${progress}%</span>
+        </div>
+        <div style="height:6px;background:var(--border);border-radius:99px;overflow:hidden">
+          <div style="height:100%;width:${progress}%;background:var(--accent);border-radius:99px;transition:width .8s ease"></div>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:24px">
+        <h4 style="font-family:var(--font-head);margin-bottom:24px">Статус доставки</h4>
+        <div class="tracking-timeline">
+          ${timeline}
+        </div>
+      </div>
+
+      <!-- Items -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px">
+        <h4 style="font-family:var(--font-head);margin-bottom:16px">Товари</h4>
+        ${items || '<p style="color:var(--muted);font-size:.88rem">Інформація недоступна</p>'}
+      </div>
+    `;
+  }
+
+  // Auto-track from URL
+  const urlId = getParam('id');
+  if (urlId) {
+    document.getElementById('track-input').value = urlId;
+    trackOrder();
+  }
+
+  // Press enter
+  document.getElementById('track-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') trackOrder();
+  });
+</script>
+</body>
+</html>
